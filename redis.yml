@@ -1,0 +1,146 @@
+version: "2.4"
+
+x-redisdefaults: &redisdefaults
+  container_name: '{{.Service.Name}}'
+  restart: always
+  image: docker.io/redis:latest
+
+x-cluster: &cluster
+  volumes:
+    - redis:/data
+  entrypoint: >
+    sh -c 'redis-server --io-threads 1
+    --cluster-enabled yes
+    --appendonly no'
+
+services:
+
+  redis-bootstrap:
+    container_name: redis-bootstrap
+    <<: *redisdefaults
+    depends_on:
+      - redissession1
+      - redissession2
+      - redissession3
+      - redissession4
+      - redissession5
+      - redissession6
+      - redissession7
+      - redissession8
+      - redissession9
+      - redissession10
+      - redissession11
+      - redissession12
+      - redissession13
+      - redissession14
+      - redissession15
+      - redissession16
+      - redissession17
+      - redissession18
+    command: >
+      sh -c 'sleep 5
+      ; echo "yes" | redis-cli --cluster create \
+        redissession1 redissession2 redissession3 redissession4 redissession5 redissession6 \
+        redissession7 redissession8 redissession9 redissession10 redissession11 redissession12 \
+        redissession13 redissession14 redissession15 redissession16 redissession17 redissession18 \
+        --cluster-replicas 2'
+
+
+  redissession1:
+    container_name: redissession1
+    <<: *redisdefaults
+    <<: *cluster
+      
+  redissession2:
+    container_name: redissession2
+    <<: *redisdefaults
+    <<: *cluster
+    
+  redissession3:
+    container_name: redissession3
+    <<: *redisdefaults
+    <<: *cluster
+      
+  redissession4:
+    container_name: redissession4
+    <<: *redisdefaults
+    <<: *cluster
+      
+  redissession5:
+    container_name: redissession5
+    <<: *redisdefaults
+    <<: *cluster
+      
+  redissession6:
+    container_name: redissession6
+    <<: *redisdefaults
+    <<: *cluster
+
+  redissession7:
+    container_name: redissession7
+    <<: *redisdefaults
+    <<: *cluster
+      
+  redissession8:
+    container_name: redissession8
+    <<: *redisdefaults
+    <<: *cluster
+
+  redissession9:
+    container_name: redissession9
+    <<: *redisdefaults
+    <<: *cluster
+      
+  redissession10:
+    container_name: redissession10
+    <<: *redisdefaults
+    <<: *cluster
+
+  redissession11:
+    container_name: redissession11
+    <<: *redisdefaults
+    <<: *cluster
+      
+  redissession12:
+    container_name: redissession12
+    <<: *redisdefaults
+    <<: *cluster
+
+  redissession13:
+    container_name: redissession13
+    <<: *redisdefaults
+    <<: *cluster
+      
+  redissession14:
+    container_name: redissession14
+    <<: *redisdefaults
+    <<: *cluster
+
+  redissession15:
+    container_name: redissession15
+    <<: *redisdefaults
+    <<: *cluster
+
+redissession16:
+    container_name: redissession16
+    <<: *redisdefaults
+    <<: *cluster
+
+  redissession17:
+    container_name: redissession17
+    <<: *redisdefaults
+    <<: *cluster
+      
+  redissession18:
+    container_name: redissession18
+    <<: *redisdefaults
+    <<: *cluster
+    
+
+networks:
+  default:
+
+volumes:
+  redis:
+    name: '{{.Service.Name}}
+
